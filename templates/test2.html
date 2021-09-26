@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: ivory;
+            }
+            #canvas {
+                border:1px solid red;
+            }
+            #theText {
+                width:10em;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="{{img_path}}" height="400px" width="800px"><br>
+        <div><button id="submit"class="btn btn-success">Mode1 Normal</button>
+        <button id="mode2"  class="btn btn-success">Mode2 location</button>
+        <button id="clear" class="btn btn-success">Clear</button></div><br>
+        <canvas id="canvas" width=1000 height=500></canvas>
+        <script  type="text/javascript">
+            // let parse the location
+            var name = JSON.parse("{{boxes|tojson}}");
+            
+            let name_arr = [];
+            var myReg = /[0-9]+/g ;
+            while(result1 = myReg.exec(name)){
+                name_arr.push(parseInt(result1[0],10));
+            }
+            var minloc =name_arr[0];
+            for (let i =0;i<name_arr.length;i+=9){
+                //alert(name_arr[i]);
+                if(minloc>name_arr[i])
+                    {
+                        micloc=name_arr[i];
+                    }
+            }
+            minloc-=150;
+            //find the same height text line
+            var minheight=name_arr[1];
+            var maxheight =name_arr[1];
+            for (let i =0;i<name_arr.length;i+=9)
+            {
+                if (maxheight<name_arr[1+i]){
+                    maxheight= name_arr[1+i];
+                }
+            }
+            //alert(maxheight);
+
+
+
+            for (let i =0;i<name_arr.length;i+=9)
+            {
+                if (minheight>name_arr[1+i]){
+                    minheight= name_arr[1+i];
+                }
+            }
+            //alert(minheight);
+            var textli1=[];
+            var textli2=[];
+            var textli3=[];
+            var textli4=[];
+            var textli5=[];
+            var textli6=[];
+            var textli7=[];
+            var textli8=[];
+            var textli9=[];
+            var textli10=[];
+            var textli11=[];
+            var textli12=[];
+            var textli13=[];
+            var textli14=[];
+            //append the same height
+            for(let i =0;1+i*9<name_arr.length;i+=1){
+                if((name_arr[1+i*9]+name_arr[5+i*9])/2>=0 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=50){
+                    textli1.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>50 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=100){
+                    textli2.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>100 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=150){
+                    textli3.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>150 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=200){
+                    textli4.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>200 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=250){
+                    textli5.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>250 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=300){
+                    textli6.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>300 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=350){
+                    textli7.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>350 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=400){
+                    textli8.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>400 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=450){
+                    textli9.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>450 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=500){
+                    textli10.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>500 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=550){
+                    textli11.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>550 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=600){
+                    textli12.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>600 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=650){
+                    textli13.push(i);
+                }
+                else if((name_arr[1+i*9]+name_arr[5+i*9])/2>650 &&(name_arr[1+i*9]+name_arr[5+i*9])/2<=700){
+                    textli14.push(i);
+                }
+            }
+            for (i in textli1){
+                var m = i;
+                for (var j=i+1;j<textli1.length;j++)
+                {
+                    if(name_arr[textli1[m]*9]>name_arr[textli1[j]*9]){
+                        //[textli1[i],textli1[j]] =  [textli1[j],textli1[i]] ;
+                        m=j; 
+                    }
+                }
+                if(i!=m){
+                    [textli1[i],textli1[m]] =  [textli1[m],textli1[i]] ;
+                }
+            }
+            //alert(textli3);
+            for (i in textli3){
+                //alert("A");
+                //alert(i);
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli3.length;j2++)
+                {
+                    //alert("B")
+                    //alert(j2);
+                    if(name_arr[textli3[m]*9]>name_arr[textli3[j2]*9]){
+                        //[textli3[i],textli3[j2]] =  [textli3[j2],textli3[i]] ;
+                        m=j2; 
+                        //alert("ddd");
+                    }
+                }
+                if(i!=m){
+                    var temp = textli3[i];
+                    textli3[i] = textli3[m];
+                    textli3[m]=temp;
+                }
+            }
+            for (i in textli4){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli4.length;j2++)
+                {
+                    if(name_arr[textli4[m]*9]>name_arr[textli4[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli4[i];
+                    textli4[i] = textli4[m];
+                    textli4[m]=temp;
+                }
+            }
+            for (i in textli5){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli5.length;j2++)
+                {
+                    if(name_arr[textli5[m]*9]>name_arr[textli5[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli5[i];
+                    textli5[i] = textli5[m];
+                    textli5[m]=temp;
+                }
+            }
+            for (i in textli6){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli6.length;j2++)
+                {
+                    if(name_arr[textli6[m]*9]>name_arr[textli6[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli6[i];
+                    textli6[i] = textli6[m];
+                    textli6[m]=temp;
+                }
+            }
+            for (i in textli7){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli7.length;j2++)
+                {
+                    if(name_arr[textli7[m]*9]>name_arr[textli7[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli7[i];
+                    textli7[i] = textli7[m];
+                    textli7[m]=temp;
+                }
+            }
+            for (i in textli8){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli8.length;j2++)
+                {
+                    if(name_arr[textli8[m]*9]>name_arr[textli8[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli8[i];
+                    textli8[i] = textli8[m];
+                    textli8[m]=temp;
+                }
+            }
+            for (i in textli9){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli9.length;j2++)
+                {
+                    if(name_arr[textli9[m]*9]>name_arr[textli9[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli9[i];
+                    textli9[i] = textli9[m];
+                    textli9[m]=temp;
+                }
+            }
+            for (i in textli10){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli10.length;j2++)
+                {
+                    if(name_arr[textli10[m]*9]>name_arr[textli10[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli10[i];
+                    textli10[i] = textli10[m];
+                    textli10[m]=temp;
+                }
+            }
+            for (i in textli11){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli11.length;j2++)
+                {
+                    if(name_arr[textli11[m]*9]>name_arr[textli11[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli11[i];
+                    textli11[i] = textli11[m];
+                    textli11[m]=temp;
+                }
+            }
+            for (i in textli12){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli12.length;j2++)
+                {
+                    if(name_arr[textli12[m]*9]>name_arr[textli12[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli12[i];
+                    textli12[i] = textli12[m];
+                    textli12[m]=temp;
+                }
+            }
+            for (i in textli13){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli13.length;j2++)
+                {
+                    if(name_arr[textli13[m]*9]>name_arr[textli13[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli13[i];
+                    textli13[i] = textli13[m];
+                    textli13[m]=temp;
+                }
+            }
+            for (i in textli14){
+                let m = parseInt(i);
+                for (let j2=m+1;j2<textli14.length;j2++)
+                {
+                    if(name_arr[textli14[m]*9]>name_arr[textli14[j2]*9]){
+                        m=j2; 
+                    }
+                }
+                if(i!=m){
+                    var temp = textli14[i];
+                    textli14[i] = textli14[m];
+                    textli14[m]=temp;
+                }
+            }
+            //alert(textli3);
+            textli=[textli1,textli2,textli3,textli4,textli5,textli6,textli7,
+        textli8,textli9,textli10,textli11,textli12,textli13,textli14];
+            //alert(textli6);
+
+            // canvas related variables
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            
+            // variables used to get mouse position on the canvas
+            var $canvas = $("#canvas");
+            var canvasOffset = $canvas.offset();
+            var offsetX = canvasOffset.left;
+            var offsetY = canvasOffset.top;
+            var scrollX = $canvas.scrollLeft();
+            var scrollY = $canvas.scrollTop();
+
+            // variables to save last mouse position
+            // used to see how far the user dragged the mouse
+            // and then move the text by that distance
+            var startX;
+            var startY;
+
+            // an array to hold text objects
+            var texts = [];
+
+            // this var will hold the index of the hit-selected text
+            var selectedText = -1;
+
+            // clear the canvas & redraw all texts
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < texts.length; i++) {
+                    var text = texts[i];
+                    ctx.fillText(text.text, text.x, text.y);
+                }
+            }
+
+            // test if x,y is inside the bounding box of texts[textIndex]
+            function textHittest(x, y, textIndex) {
+                var text = texts[textIndex];
+                return (x >= text.x && x <= text.x + text.width && y >= text.y - text.height && y <= text.y);
+            }
+
+            // handle mousedown events
+            // iterate through texts[] and see if the user
+            // mousedown'ed on one of them
+            // If yes, set the selectedText to the index of that text
+            function handleMouseDown(e) {
+                e.preventDefault();
+                startX = parseInt(e.clientX - offsetX);
+                startY = parseInt(e.clientY - offsetY);
+                // Put your mousedown stuff here
+                for (var i = 0; i < texts.length; i++) {
+                    if (textHittest(startX, startY, i)) {
+                        selectedText = i;
+                    }
+                }
+            }
+
+            // done dragging
+            function handleMouseUp(e) {
+                e.preventDefault();
+                selectedText = -1;
+            }
+
+            // also done dragging
+            function handleMouseOut(e) {
+                e.preventDefault();
+                selectedText = -1;
+            }
+
+            // handle mousemove events
+            // calc how far the mouse has been dragged since
+            // the last mousemove event and move the selected text
+            // by that distance
+            function handleMouseMove(e) {
+                if (selectedText < 0) {
+                    return;
+                }
+                e.preventDefault();
+                mouseX = parseInt(e.clientX - offsetX);
+                mouseY = parseInt(e.clientY - offsetY);
+
+                // Put your mousemove stuff here
+                var dx = mouseX - startX;
+                var dy = mouseY - startY;
+                startX = mouseX;
+                startY = mouseY;
+
+                var text = texts[selectedText];
+                text.x += dx;
+                text.y += dy;
+                draw();
+            }
+
+            // listen for mouse events
+            $("#canvas").mousedown(function (e) {
+                handleMouseDown(e);
+            });
+            $("#canvas").mousemove(function (e) {
+                handleMouseMove(e);
+            });
+            $("#canvas").mouseup(function (e) {
+                handleMouseUp(e);
+            });
+            $("#canvas").mouseout(function (e) {
+                handleMouseOut(e);
+            });
+            var mystring = '{{prediction}}';
+            var index1 = mystring.indexOf("[");
+            var index2 = mystring.indexOf("]");
+            var clear1 = mystring.slice(index1+1,index2);
+            clear1 = clear1.split("&#39;");
+            let result
+            let arr = []
+            var myRegexp = /[a-zA-Z]+/g ;
+            while (result = myRegexp.exec(clear1)) {
+             arr.push(result[0]); // 將找加入該陣列
+             }
+             $("#clear").click(function (){
+                //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                canvas = document.getElementById("canvas");
+                ctx = canvas.getContext("2d");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+             });
+            // comnine the worllllddddddd!!!!!!
+            $("#mode2").click(function (){
+                texts = [];
+                //ctx.clearRect(0, 0, context.canvas.width, context.canvas.height);
+                for (let i in textli){
+                //alert(textli[i]);
+                //alert(textli[i][0]);
+                // var x =name_arr[textli[i][0]*9];
+                // var y =name_arr[textli[i][0]*9+1];
+                var x =name_arr[textli[i][0]*9]-150;
+                var y = i*20+50;
+                var textline='';
+                for (let j in textli[i]){
+                    //alert(arr[textli[i][j]]);
+                     textline = textline.concat(arr[textli[i][j]]);
+                     textline = textline.concat(" ");
+                     //alert(textline);
+                }
+                //alert(textline);
+                var text = {
+                text: textline,
+                x : x,
+                y : y
+                };
+                ctx.font = "16px verdana";
+                text.width = ctx.measureText(text.text).width;
+                text.height = 16;
+                
+                texts.push(text);
+
+                draw();
+            }
+            });
+            
+            $("#submit").click(function () {
+                texts = [];
+            // for (var i in arr){
+            // //var y = i * 20 + 20;
+            // // var x =Math.floor((parseInt(name_arr[i*9],10)+parseInt(name_arr[i*9+4],10))/2);
+            // // var y =Math.floor((parseInt(name_arr[i*9+1],10)+parseInt(name_arr[i*9+5],10))/2);
+            // var x =Math.floor((name_arr[i*9]+name_arr[i*9+4])/2)-minloc+100;
+            // var y =Math.floor((name_arr[i*9+1]+name_arr[i*9+5])/2);
+            // //alert(x);
+            // //alert(y);
+            // // var x =name_arr[i*9];
+            // // var y =name_arr[i*9+1];
+            // // get the text from the input element
+            // arr[i] = arr[i].concat("ddd");
+            // arr[i] = arr[i].concat(" ");
+            // arr[i] = arr[i].concat("dock");
+            // var text = {
+            //     text: arr[i],
+            //     //x: 20,
+            //     //y: y
+            //     x : x,
+            //     y : y
+            // };
+            // // calc the size of this text for hit-testing purposes
+            // ctx.font = "16px verdana";
+            // text.width = ctx.measureText(text.text).width;
+            // text.height = 16;
+
+            // // put this new text in the texts array
+            // texts.push(text);
+
+            // // redraw everything
+            // draw();
+            // }
+            for (let i in textli){
+                //alert(textli[i]);
+                //alert(textli[i][0]);
+                // var x =name_arr[textli[i][0]*9];
+                // var y =name_arr[textli[i][0]*9+1];
+                var x =50;
+                var y = i*20+50;
+                var textline='';
+                for (let j in textli[i]){
+                    //alert(arr[textli[i][j]]);
+                     textline = textline.concat(arr[textli[i][j]]);
+                     textline = textline.concat(" ");
+                     //alert(textline);
+                }
+                //alert(textline);
+                var text = {
+                text: textline,
+                x : x,
+                y : y
+                };
+                ctx.font = "16px verdana";
+                text.width = ctx.measureText(text.text).width;
+                text.height = 16;
+                
+                texts.push(text);
+
+                draw();
+            }
+            });
+        </script>
+
+            {% for text in asr %}
+            <h2> Your ASR   : <i> {{text.trans}} </i></h2>
+            <h2> Your Confidence: <i> {{text.conf}} </i></h2>
+            {% endfor %}
+    </body>
+</html>
