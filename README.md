@@ -8,5 +8,7 @@ CinnamonAI MVP
 ![](https://i.imgur.com/mfjlQw9.png)
 ### OCR Page
 ![](https://i.imgur.com/JcdD5rF.png)
-### OCR Result Page
+### OCR Result Page(Show the location)
 ![](https://i.imgur.com/FXxvUBy.png)
+### OCR Result Page(Show the Alined Type)
+![](https://i.imgur.com/Bd8qnhm.png)
