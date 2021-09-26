@@ -1,0 +1,2 @@
+# NoteKing
+CinnamonAI MVP
