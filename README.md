@@ -2,4 +2,4 @@
 CinnamonAI MVP
 ## Video
 * Demo for our MVP
-![https://www.youtube.com/watch?v=AbAIDW5g1Dg&ab_channel=HUNG]
+[![](http://img.youtube.com/vi/-AbAIDW5g1Dg&ab_channel/0.jpg)](https://www.youtube.com/watch?v=AbAIDW5g1Dg&ab_channel=HUNG)
